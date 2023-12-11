@@ -36,13 +36,35 @@ describe('Challenge Elements', () => {
 
 	it.only('CHECKBOX - TC2: Validate check boxes and labels displayed afterwards', () => {
 		cy.visit('/checkbox');
+
+		//ACTION
 		cy.get('[for^=tree-node]').should('have.length', 1);
 		cy.get('[aria-label = "Expand all"]').click();
 		cy.get('[for^=tree-node]').should('have.length', 17);
+
+		//ASSERT
 		cy.get('[type=checkbox]').eq(0).check({ force: true });
 		cy.get('[type=checkbox]').eq(0).should('be.checked');
+
 		cy.get('[type=checkbox]').eq(5).uncheck({ force: true });
 		cy.get('[type=checkbox]').eq(5).should('not.be.checked');
-		//CONTINUAR
+
+		const labels = [];
+		cy.get('[for^=tree-node]:has(.rct-icon-check)').each(element => {
+			labels.push(element.text());
+		});
+
+		const successText = [];
+		cy.get('#result .text-success')
+			.each(element => {
+				successText.push(element.text);
+			})
+			.then(() => {
+				const checkedLabels = labels.map(element => element.toLowerCase().replace(' ', '').replace('.doc', ''));
+				const formattedText = successText.map(text => text.toLowerCase());
+				expect(formattedText).deep.equal(checkedLabels);
+			});
 	});
 });
+
+//CONTINUAR
