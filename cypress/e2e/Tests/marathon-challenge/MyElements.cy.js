@@ -51,20 +51,17 @@ describe('Challenge Elements', () => {
 
 		const labels = [];
 		cy.get('[for^=tree-node]:has(.rct-icon-check)').each(element => {
+			// Extraemos el texto de cada elemento y lo guardamos en un Array para poder compararlo luego
 			labels.push(element.text());
 		});
+		const checkedLabels = labels.map(element => element.toLowerCase().replace(' ', '').replace('.doc', '')); // Modificamos el texto de cada elemento sacándole espacios en blanco y extensiones
 
 		const successText = [];
-		cy.get('#result .text-success')
-			.each(element => {
-				successText.push(element.text);
-			})
-			.then(() => {
-				const checkedLabels = labels.map(element => element.toLowerCase().replace(' ', '').replace('.doc', ''));
-				const formattedText = successText.map(text => text.toLowerCase());
-				expect(formattedText).deep.equal(checkedLabels);
-			});
+		cy.get('#result .text-success').each(element => {
+			// Extraemos el texto de los <span/> y los guardamos en un array
+			successText.push(element.text);
+		});
+		const formattedText = successText.map(text => text.toLowerCase()); // Quitamos extensiones y espacios en blanco para compararlos
+		expect(formattedText).deep.equal(checkedLabels); // Comparamos los arrays
 	});
 });
-
-//CONTINUAR
