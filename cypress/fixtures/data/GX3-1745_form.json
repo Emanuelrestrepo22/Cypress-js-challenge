@@ -1,0 +1,13 @@
+{
+"validCredentials": {
+    "fullName": "Richard Brown",
+    "email": "correo@example.com",
+    "currentAddress": "Buenos Aires",
+    "permanentAddress": "Rio de Janeiro"
+},
+"invalidEmailCredentials": {
+    "emailWithoutAt": "example.mx",
+    "emailWithoutDot": "example@xx,xx",
+    "emailWithoutCharacter": "@.xx"
+}
+}
